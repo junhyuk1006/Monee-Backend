@@ -1,6 +1,8 @@
 package com.example.moneebackend.domain.user;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,9 @@ import java.time.LocalDateTime;
 @Table(name ="users")
 @Getter
 @NoArgsConstructor
+// @Builder 와 @AllArgsConstructor 을 함께 사용
+@Builder
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +22,11 @@ public class User {
     private String email;
     private String password;
     private String nickname;
-    private String status;
+
+    // @Enumerated(EnumType.STRING)을 붙여야 DB에 "ACTIVE" 같은 문자열로 저장
+    // 기본은 ORDINAL(?)
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
     private LocalDateTime createdAt;
 
     // User 객체가 저장되기 전에 자동 호출
