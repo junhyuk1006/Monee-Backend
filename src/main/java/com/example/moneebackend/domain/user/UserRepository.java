@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email); // SELECT COUNT(*) FROM users WHERE email = ? LIMIT 1
+
+    String email(String email);
 }
