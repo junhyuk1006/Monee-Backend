@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class UserLoginResponseDto {
-    private String token;
-    private String email;
-    private String nickname;
+    private final String token;
+    private final String email;
+    private final String nickname;
 
     public UserLoginResponseDto(String token, String email, String nickname){
         this.token = token;

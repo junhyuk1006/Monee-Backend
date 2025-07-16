@@ -4,12 +4,16 @@ import com.example.moneebackend.domain.category.Category;
 import com.example.moneebackend.domain.category.CategoryRepository;
 import com.example.moneebackend.domain.transaction.Transaction;
 import com.example.moneebackend.domain.transaction.TransactionRepository;
+import com.example.moneebackend.domain.user.User;
 import com.example.moneebackend.dto.transaction.TransactionCreateRequestDto;
+import com.example.moneebackend.dto.transaction.TransactionResponseDto;
 import com.example.moneebackend.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,5 +36,12 @@ public class TransactionService {
                             .date(requestDto.getDate()).build();
 
         transactionRepository.save(transaction);
+    }
+
+    public List<TransactionResponseDto> getTransactionByDateRange(User user, LocalDateTime start, LocalDateTime end){
+        return transactionRepository.findByUserAndDateBetween(user,start,end)
+                .stream()
+                .map(TransactionResponseDto::new) // 스트림의 각 Transaction 객체를 TransactionResponseDto 객체로 변환하는 작업
+                .toList();
     }
 }
