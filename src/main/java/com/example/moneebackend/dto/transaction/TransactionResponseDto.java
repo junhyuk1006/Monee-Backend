@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class TransactionResponseDto {
+    private final Long id;
     private final String categoryType;
     private final Integer amount;
     private final String memo;
@@ -15,6 +16,7 @@ public class TransactionResponseDto {
     private final LocalDateTime date;
 
     public TransactionResponseDto(Transaction transaction){
+        this.id = transaction.getId();
         this.categoryType = transaction.getCategory().getType();
         this.amount = transaction.getAmount();
         this.memo = transaction.getMemo();

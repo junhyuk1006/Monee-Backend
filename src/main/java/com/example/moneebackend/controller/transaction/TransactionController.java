@@ -1,7 +1,6 @@
 package com.example.moneebackend.controller.transaction;
 
-import com.example.moneebackend.domain.transaction.Transaction;
-import com.example.moneebackend.dto.transaction.TransactionCreateRequestDto;
+import com.example.moneebackend.dto.transaction.TransactionRequestDto;
 import com.example.moneebackend.dto.transaction.TransactionResponseDto;
 import com.example.moneebackend.security.CustomUserDetails;
 import com.example.moneebackend.service.transaction.TransactionService;
@@ -21,15 +20,25 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping
-    public List<TransactionResponseDto> getTransactionByDateRange(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-                                                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+    public List<TransactionResponseDto> getTransactionByDateRange(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+                                                                  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
                                                                   @AuthenticationPrincipal CustomUserDetails userDetails){
         return transactionService.getTransactionByDateRange(userDetails.getUser(),start,end);
     }
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody TransactionCreateRequestDto requestDto, @AuthenticationPrincipal CustomUserDetails userDetails){
-        transactionService.create(requestDto,userDetails);
+    public ResponseEntity<String> create(@RequestBody TransactionRequestDto requestDto,
+                                         @AuthenticationPrincipal CustomUserDetails userDetails){
+        transactionService.create(requestDto,userDetails.getUser());
         return ResponseEntity.ok("저장 성공");
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<String> update(@PathVariable("id") Long transactionId,
+                                         @RequestBody TransactionRequestDto requestDto,
+                                         @AuthenticationPrincipal CustomUserDetails userDetails){
+        transactionService.update(transactionId,userDetails.getUser(),requestDto);
+        return ResponseEntity.ok("수정 성공");
+    }
+
+    //@DeleteMapping
 }

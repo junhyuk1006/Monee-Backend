@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class TransactionCreateRequestDto {
+public class TransactionRequestDto {
     private Integer amount;
     private String memo;
     private String detail;
