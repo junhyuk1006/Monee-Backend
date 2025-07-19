@@ -40,5 +40,10 @@ public class TransactionController {
         return ResponseEntity.ok("수정 성공");
     }
 
-    //@DeleteMapping
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> delete(@PathVariable("id") Long transactionId,
+                                         @AuthenticationPrincipal CustomUserDetails userDetails){
+        transactionService.delete(transactionId,userDetails.getUser());
+        return ResponseEntity.ok("삭제 성공");
+    }
 }

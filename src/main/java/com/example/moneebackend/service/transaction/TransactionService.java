@@ -48,7 +48,7 @@ public class TransactionService {
     }
 
     @Transactional // 변경 감지를 위해 꼭 필요
-    public void update(Long transactionId,User user, TransactionRequestDto requestDto){
+    public void update(Long transactionId, User user, TransactionRequestDto requestDto){
         Transaction transaction = transactionRepository.findByIdAndUser(transactionId,user)
                 .orElseThrow(() -> new EntityNotFoundException("해당 트랜잭션이 존재하지 않습니다"));
 
@@ -61,5 +61,12 @@ public class TransactionService {
         transaction.setDetail(requestDto.getDetail());
         transaction.setMethod(requestDto.getMethod());
         transaction.setDate(requestDto.getDate());
+    }
+
+    public void delete(Long transactionId, User user){
+        Transaction transaction = transactionRepository.findByIdAndUser(transactionId,user)
+                .orElseThrow(() -> new EntityNotFoundException("해당 트랜잭션이 존재하지 않습니다"));
+
+        transactionRepository.delete(transaction);
     }
 }
