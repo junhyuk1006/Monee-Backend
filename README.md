@@ -8,7 +8,7 @@
 ## 🛠 사용 기술
 
 - Java 17
-- Spring Boot 3.x
+- Spring Boot 3.5.3
 - Spring Security + JWT
 - JPA (Hibernate)
 - MySQL
@@ -18,13 +18,15 @@
 
 ## 📁 프로젝트 구조
 
+```
 src/
-├── config/ # CORS, Security 설정 등
-├── controller/ # API 컨트롤러
-├── dto/ # 요청/응답 DTO
-├── entity/ # JPA 엔티티
-├── repository/ # JPA 리포지토리
-├── service/ # 비즈니스 로직
+├── config/       # CORS, Security 설정 등
+├── controller/   # API 컨트롤러
+├── dto/          # 요청/응답 DTO
+├── entity/       # JPA 엔티티
+├── repository/   # JPA 리포지토리
+├── service/      # 비즈니스 로직
+```
 
 ---
 
