@@ -7,11 +7,9 @@ import com.example.moneebackend.domain.transaction.TransactionRepository;
 import com.example.moneebackend.domain.user.User;
 import com.example.moneebackend.dto.transaction.TransactionRequestDto;
 import com.example.moneebackend.dto.transaction.TransactionResponseDto;
-import com.example.moneebackend.security.CustomUserDetails;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -63,6 +61,7 @@ public class TransactionService {
         transaction.setDate(requestDto.getDate());
     }
 
+    @Transactional
     public void delete(Long transactionId, User user){
         Transaction transaction = transactionRepository.findByIdAndUser(transactionId,user)
                 .orElseThrow(() -> new EntityNotFoundException("해당 트랜잭션이 존재하지 않습니다"));
