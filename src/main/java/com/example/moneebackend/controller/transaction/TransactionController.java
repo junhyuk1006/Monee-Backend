@@ -5,6 +5,8 @@ import com.example.moneebackend.dto.transaction.TransactionResponseDto;
 import com.example.moneebackend.security.CustomUserDetails;
 import com.example.moneebackend.service.transaction.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,13 +19,16 @@ import java.util.List;
 @RequestMapping("/transaction")
 @RequiredArgsConstructor
 public class TransactionController {
+    private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
     private final TransactionService transactionService;
 
     @GetMapping
     public List<TransactionResponseDto> getTransactionByDateRange(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
                                                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
                                                                   @AuthenticationPrincipal CustomUserDetails userDetails){
-        return transactionService.getTransactionByDateRange(userDetails.getUser(),start,end);
+        List<TransactionResponseDto> result = transactionService.getTransactionByDateRange(userDetails.getUser(), start, end);
+        log.debug("거래 리스트: {}", result);
+        return result;
     }
 
     @PostMapping

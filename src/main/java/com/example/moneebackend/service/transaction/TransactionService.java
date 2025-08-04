@@ -39,9 +39,18 @@ public class TransactionService {
     }
 
     public List<TransactionResponseDto> getTransactionByDateRange(User user, LocalDateTime start, LocalDateTime end){
-        return transactionRepository.findByUserAndDateBetween(user,start,end)
-                .stream()
-                .map(TransactionResponseDto::new) // 스트림의 각 Transaction 객체를 TransactionResponseDto 객체로 변환하는 작업
+        List<Transaction> transactions;
+
+        if (start == null || end == null) {
+            // 날짜 안 들어오면 전체 조회
+            transactions = transactionRepository.findByUser(user);
+        } else {
+            // 날짜 들어오면 해당 범위만 조회
+            transactions = transactionRepository.findByUserAndDateBetween(user, start, end);
+        }
+
+        return transactions.stream()
+                .map(TransactionResponseDto::new)
                 .toList();
     }
 

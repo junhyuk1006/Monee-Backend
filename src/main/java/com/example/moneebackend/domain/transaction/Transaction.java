@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+@ToString(exclude = {"user", "category"})
 @Entity
 @Table(name = "transactions")
 @Getter
